@@ -1,3 +1,8 @@
+page.injectCss = function(stylesheet) {
+  this.content = this.content.replace('</head>', '<link rel="stylesheet" href="' + stylesheet + '"></head>');
+};
+
+
 /* cssert */
 (function() {
   var tests = [];
