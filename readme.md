@@ -4,7 +4,7 @@
 When working on a large project, you sometimes need to refactor your CSS. If you aren't constantly aware of all the different dependencies, you can end up altering the styles somewhere unexpected. This framework is designed to help you create key test cases linked to your styles. If the tests pass after refactoring, you can be sure your design is intact.
 
 ## Design
-This works by generating a simple HTML skeleton unit which matches the minimal page structure around the element whose styles you want to test. This unit contains references to your project's CSS. You can then refactor your CSS as much as you like and as long as the styles amount to the same visual appearance, the test will continue to pass.
+This works by generating a simple HTML skeleton unit which matches the minimal page structure around the element whose styles you want to test. This unit contains references to your project's CSS. You can then refactor your CSS as much as you like and as long as the styles cascade down to the same visual appearance, the test will continue to pass.
 
 ## Usage
 ### Generating tests
@@ -20,3 +20,4 @@ This same test page can also be used with the command-line interface. cssert use
 If a test is marked as failed, you can view the current state of the markup and styles in the browser window by clicking
 on the test title. When running via command-line, screenshots are saved
 of the state the page was in at the time of the test.
+
