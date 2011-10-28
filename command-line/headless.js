@@ -60,8 +60,6 @@ runTest = function(filename, testSubject, stylesToAssert, testTitle) {
   page.onLoadFinished = function(status) {
     if ( status === "success" ) {
 
-      page.render('screenshots/test'+testTitle+'.png');
-
       //Inject our libraries into the page
       page.injectJs("../lib/jquery-1.6.4.min.js");
       page.injectJs("../lib/cssert.js");
@@ -79,6 +77,8 @@ runTest = function(filename, testSubject, stylesToAssert, testTitle) {
           console.log(testTitle + ' : Failed');
         }
       });
+
+      page.render('screenshots/test'+testTitle+'.png');
 
     } else {
       console.log('Failed to open test page');
