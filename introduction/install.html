@@ -14,7 +14,7 @@
     <h2 class="pass">Usage</h2>
     <p>The easiest way to create test cases is to install the bookmarklet. To generate a test unit, load a page whose styles you want to maintain then run the bookmarklet. If you click on an element, the test case will be generated in the floating panel. Copy and paste this into the test section of the <a href="blank-test-page.html">standard test page</a>. Open that page in a browser now and all the tests should pass. You can now refactor your CSS and the tests will let you know if something has changed unexpectedly.</p>
     <h2>Bookmarklet</h2>
-    <p><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='launchTestGeneration.js';})();">Generate Tests</a></p>
+    <p><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://raw.github.com/thingsinjars/cssert/master/lib/generate-tests.js';})();">Generate Tests</a></p>
     <h2 class="fail">Limitations</h2>
     <ul>
       <li>If your HTML changes, your test cases are no longer valid. A potential future direction for this project may be to simplify automatic test case generation tied into a VCS or build system</li>
