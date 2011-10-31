@@ -19,6 +19,8 @@ firstTime = true,
 consoleMessage = function(msg) {console.log(msg);},
 tests = [];
 
+var prepstage = true;
+
 page.onConsoleMessage = consoleMessage;
 
 if (phantom.args.length === 0) {
@@ -27,38 +29,42 @@ if (phantom.args.length === 0) {
 }
 
 page.open(phantom.args[0], function(status) {
-  if ( status === "success" ) {
+  if(prepstage) {
+    prepstage = false;
+    if ( status === "success" ) {
+      page.injectJs("../lib/jquery-1.6.4.min.js");
+      page.injectJs("../lib/cssert.js");
 
-    page.injectJs("../lib/jquery-1.6.4.min.js");
-    page.injectJs("../lib/cssert.js");
+      tests = page.evaluate(function() {
+        return loadHeadless();
+      });
 
-    tests = page.evaluate(function() {
-      return loadHeadless();
-    });
+      testsRemaining = tests.length - 1;
 
-    testsRemaining = tests.length - 1;
-
-    //This writes out files to be read later rather than injecting the content 
-    //directly into the page object. It's more reliable this way.
-    for(var a=0;a<tests.length;a++) {
-      testObject = tests[a];
-      fs.write('test'+testObject.title+'case.html', testObject.unit, 'w');
-      beginTest('test'+testObject.title+'case.html', testObject.selector, JSON.parse(testObject.styles), testObject.title);
+      //This writes out files to be read later rather than injecting the content 
+      //directly into the page object. It's more reliable this way.
+      for(var a=0;a<tests.length;a++) {
+        testObject = tests[a];
+        fs.write('test'+testObject.title+'case.html', testObject.unit, 'w');
+        beginTest('test'+testObject.title+'case.html', testObject.selector, JSON.parse(testObject.styles), testObject.title);
+      }
+    } else {
+      console.log('failed');
     }
-  } else {
-    console.log('failed');
   }
 });
 
 runTest = function(filename, testSubject, stylesToAssert, testTitle) {
   var page = require('webpage').create();
-  page.viewportSize = { width: 1280, height: 1024 };
+  page.viewportSize = { width: 1600, height: 1600 };
   page.onConsoleMessage = consoleMessage;
 
   page.onLoadStarted = function() {};
 
   page.onLoadFinished = function(status) {
     if ( status === "success" ) {
+
+      page.render('screenshots/test'+testTitle+'.png');
 
       //Inject our libraries into the page
       page.injectJs("../lib/jquery-1.6.4.min.js");
@@ -77,8 +83,6 @@ runTest = function(filename, testSubject, stylesToAssert, testTitle) {
           console.log(testTitle + ' : Failed');
         }
       });
-
-      page.render('screenshots/test'+testTitle+'.png');
 
     } else {
       console.log('Failed to open test page');
