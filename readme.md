@@ -49,7 +49,7 @@ If your @font-face declaration contains a suggested 'local' source (as
 recommended in Paul Irish's [bulletproof syntax](http://paulirish.com/2009/bulletproof-font-face-implementation-syntax/)), a [bug in QTWebkit](https://bugs.webkit.org/show_bug.cgi?id=36351) will
 prevent the test case from running correctly.
 
-## Bugs
+## Known Bugs
 If you are testing your local HTML with remote CSS and images, there's the possibility the
 test assertions might run before all assets have downloaded correctly.
 This might give a false negative. This affects both Browser and
