@@ -71,7 +71,7 @@ runTest = function(filename, testSubject, stylesToAssert, testTitle) {
       page.injectJs("../lib/cssert.js");
 
       //Inject variables into the page context
-      eval("function fn() { stylesToAssert = JSON.parse('" + JSON.stringify(stylesToAssert) + "');  testSubject = $('" + testSubject + "'); testTitle = '" + testTitle + "'}");
+      eval("function fn() { stylesToAssert = JSON.parse('" + JSON.stringify(stylesToAssert).replace(/'/g,"\\'") + "');  testSubject = $('" + testSubject + "'); testTitle = '" + testTitle + "'}");
       page.evaluate(fn);
 
       //Run the actual test case
