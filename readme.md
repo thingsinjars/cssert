@@ -1,4 +1,4 @@
-# cssert – CSS Unit testing
+# cssert – CSS verification testing
 
 ## Make sure your styles don't change when your files do
 When working on a large project, you sometimes need to refactor your CSS. If you aren't constantly aware of all the different dependencies, you can end up altering the styles somewhere unexpected. This framework is designed to help you create key test cases linked to your styles. If the tests pass after refactoring, you can be sure your design is intact.

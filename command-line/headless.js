@@ -2,7 +2,7 @@
  * version 1.0
  *
  * (C) Simon Madine (@thingsinjars) - Mit Style License
- * CSS unit test framework
+ * CSS verification test framework
  * @see http://thingsinjars.com
  *
  * PhantomJS headless control script

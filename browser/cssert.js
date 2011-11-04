@@ -3,10 +3,10 @@
  * version 1.0
  *
  * (C) Simon Madine (@thingsinjars) - Mit Style License
- * CSS unit test framework
+ * CSS verification test framework
  * @see http://thingsinjars.com
  *
- * Main unit testing script
+ * Main testing script
  *
  * This loads and parses test files, creates test cases 
  * and runs the assertions
