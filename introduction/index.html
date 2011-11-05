@@ -2,11 +2,12 @@
 <html>
   <head>
     <title>cssert &ndash; CSS Verification Tests</title>
-    <link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="fonts/stylesheet.css" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <h1>cssert &ndash; CSS verification testing</h1>
+    <header><h1>cssert</h1><h2>CSS Verification Testing</h2></header>
+    <section>
     <h2>Make sure your styles don't change when your files do.</h2>
     <p>When working on a large project, you sometimes need to refactor your CSS. If you aren't constantly aware of all the different dependencies, you can end up altering the styles somewhere unexpected. This framework is designed to help you create key test cases linked to your styles. If the tests pass after refactoring, you can be sure your design is intact.</p>
     <h2>Design</h2>
@@ -19,12 +20,11 @@
     <h2>Bookmarklet</h2>
     <p class="bookmarklet"><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://raw.github.com/thingsinjars/cssert/master/lib/generate-tests.js';})();">Generate Tests</a></p>
     <h2 class="fail">Limitations</h2>
-    <p>This is probably not going to be any good for Test-Driven
-    Development (TDD). By the time you've written your test case, you'd
-    really have been better off writing the actual HTML. Especially as
-    you could then use the bookmarklet to generate the test case.
-    Possibly there will be a point in the future where the visual
-    designer on a project could specify the test case beforehand but
-    until then, this is best used to help with refactoring.</p>
+    <p>This isn't any good for Test-Driven Development. Due to CSS and HTML both being declarative, by the time you've written your test case, you'd really have been better off writing the actual HTML. Especially as you could then have used the bookmarklet to generate the test case.</p>
+    <p>They may be a point in the future where the visual designer on a project could specify the test case beforehand but until then, this is best used to help with refactoring.</p>
+    <h2>More information</h2>
+    <p>You can find more info on the <a href="http://thingsinjars.github.com/cssert/">project's website</a>.</p>
+    </section>
   </body>
 </html>
+
