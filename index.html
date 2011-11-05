@@ -1,25 +1,37 @@
 <!doctype html>
 <html>
   <head>
-    <title>cssert &ndash; CSS Unit Tests</title>
-    <link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>
+    <title>cssert &ndash; CSS Verification Tests</title>
+    <link rel="stylesheet" href="fonts/stylesheet.css" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <h1>cssert &ndash; CSS Unit testing</h1>
-    <h2>Make sure your styles don't change when your files do.</h2>
-    <p>When working on a large project, you sometimes need to refactor your CSS. If you aren't constantly aware of all the different dependencies, you can end up altering the styles somewhere unexpected. This framework is designed to help you create key test cases linked to your styles. If the tests pass after refactoring, you can be sure your design is intact.</p>
-    <p class="bookmarklet"><a href="https://github.com/thingsinjars/cssert">Download from GitHub</a></p>
-    <h2>Design</h2>
-    <p>This works by generating a simple HTML skeleton unit which matches the minimal page structure around the element whose styles you want to test. This unit contains references to your project's CSS. You can then refactor your CSS as much as you like and as long as the styles amount to the same visual appearance, the test will continue to pass.</p>
-    <h2 class="pass">Usage</h2>
-    <p>The easiest way to create test cases is to install the bookmarklet. To generate a test unit, load a page whose styles you want to maintain then run the bookmarklet. If you click on an element, the test case will be generated in the floating panel. Copy and paste this into the test section of the <a href="blank-test-page.html">standard test page</a>. Open that page in a browser now and all the tests should pass. You can now refactor your CSS and the tests will let you know if something has changed unexpectedly.</p>
-    <p>There is also a command-line version of the tool which is built
-    on <a href="http://phantomjs.org">PhantomJS</a>. Check the <a href="https://github.com/thingsinjars/cssert/blob/master/readme.md">readme</a>
-    provided in the project for more information.</p>
-    <h2>Bookmarklet</h2>
-    <p class="bookmarklet"><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://raw.github.com/thingsinjars/cssert/master/lib/generate-tests.js';})();">Generate Tests</a></p>
-    <h2 class="fail">Limitations</h2>
-    <p>This is probably not going to be any good for Test-Driven Development (TDD). By the time you've written your test case, you'd really have been better off writing the actual HTML. Especially as you could then use the bookmarklet to generate the test case. Possibly there will be a point in the future where the visual designer on a project could specify the test case beforehand but until then, this is best used to help with refactoring.</p>
+    <header><h1>cssert</h1><h2>CSS Verification Testing</h2></header>
+    <section>
+      <h2>Make sure your styles don't change when your files do.</h2>
+      <p>When working on a large project, you sometimes need to refactor your CSS. If you aren't constantly aware of all the different dependencies, you can end up altering the styles somewhere unexpected. This framework is designed to help you create key test cases linked to your styles. If the tests pass after refactoring, you can be sure your design is intact.</p>
+      <h2 class="pass">Download</h2>
+      <p class="bookmarklet"><a href="http://github.com/thingsinjars/cssert">Download from GitHub</a></p>
+      <h2>Design</h2>
+      <p>This works by generating a simple HTML skeleton unit which matches the minimal page structure around the element whose styles you want to test. This unit contains references to your project's CSS. You can then refactor your CSS as much as you like and as long as the styles amount to the same visual appearance, the test will continue to pass.</p>
+      <h2>Usage</h2>
+      <p>The easiest way to create test cases is to use the bookmarklet. To generate a test unit, load a page whose styles you want to maintain then run the bookmarklet. If you click on an element, the test case will be generated in the floating panel. You can then either copy and paste this into the test section of the standard test page or drag the icon from the bottom of the panel to your desktop where it will create a complete HTML test page.</p>
+      <h2>Bookmarklet</h2>
+      <p class="bookmarklet"><a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://raw.github.com/thingsinjars/cssert/master/lib/generate-tests.js';})();">Generate CSS Tests</a></p>
+      <h2>Command-line</h2>
+      <p>There is also a command-line version of the tool which is built on <a href="http://phantomjs.org">PhantomJS</a> for use in an automated build pipeline. Check the <a href="https://github.com/thingsinjars/cssert/blob/master/readme.md">readme</a> provided in the project for more information.</p>
+      <h2 class="fail">Limitations</h2>
+      <p>Most of the limitations you'll run into are caused by using the automatically generated tests. They're good for creating a starting point but at the moment, they need to be tweaked for many cases.</p>
+      <h3>Sibling selectors</h3>
+      <p>Because the test generates the DOM via following parents up the structure, sibling elements are ignored. These styles are still testable, though. Simply add the sibling element into your HTML test block.</p>
+      <h3>Styles modified by JS</h3>
+      <p>The styles are measured on the element as it is when the case is generated. The test compares this against the styles provided by the CSS. If the element contains JS-only styles not added by CSS, they will not be correctly matched. Modify your test case to allow for this.</p>
+      <h3>Irrelevant styles mismatched</h3>
+      <p>If you just want to keep an eye on the background-colour or the font-size of an element, it might get annoying to repeatedly have fails for a different width or margin on an element. The automatic cases grab a bunch of different styles to measure, most of which will be irrelevant to the specific case you want to test for. The next version of the generator contains a simple style selector to allow you to choose which styles you want to maintain at test generation time.</p>
+      <h3>Red-Green Testing</h3>
+      <p>This isn't any good for Test-Driven Development. Due to CSS and HTML both being declarative, by the time you've written your test case, you'd really have been better off writing the actual HTML. Especially as you could then have used the bookmarklet to generate the test case.</p>
+      <p>They may be a point in the future where the visual designer on a project could specify the test case beforehand but until then, this is best used to help with refactoring.</p>
+    </section>
   </body>
 </html>
+
