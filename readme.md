@@ -41,9 +41,6 @@ generated. The test compares this against the styles provided by the
 CSS. If the element contains JS-only styles not added by CSS, they will
 not be correctly matched. Modify your test case to allow for this.
 
-### Irrelevant styles mismatched
-If you just want to keep an eye on the background-colour or the font-size of an element, it might get annoying to repeatedly have fails for a different width or margin on an element. The automatic cases grab a bunch of different styles to measure, most of which will be irrelevant to the specific case you want to test for. The next version of the generator contains a simple style selector to allow you to choose which styles you want to maintain at test generation time.
-
 ## Known Bugs
 ### @font-face not correctly matched
 If your @font-face declaration contains a suggested 'local' source (as recommended in Paul Irish's [bulletproof syntax](http://paulirish.com/2009/bulletproof-font-face-implementation-syntax/)), a [bug in QTWebkit](https://bugs.webkit.org/show_bug.cgi?id=36351) will prevent the test case from running correctly.
