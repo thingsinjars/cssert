@@ -1,1 +1,18 @@
-./phantomjs --local-to-remote-url-access=yes --load-images=no --disk-cache=yes headless.js $1
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+  # Make sure the tests folder
+  if [ -d ../tests ] ; then
+	  echo "Starting cssert"
+  else
+	  echo "Tests folder is unavailable. (o_O)"
+  	exit 1
+  fi
+
+  # Run tests
+  for file in ../tests/*.html ; do
+  	./phantomjs --local-to-remote-url-access=yes --load-images=no --disk-cache=yes headless.js $file
+  done
+else
+  ./phantomjs --local-to-remote-url-access=yes --load-images=no --disk-cache=yes headless.js ../tests/$1
+fi
