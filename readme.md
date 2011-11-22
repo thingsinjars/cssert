@@ -14,7 +14,7 @@ The easiest way to create test cases is to use the bookmarklet. To generate a te
 Open the test page in a browser now and all the tests should pass. You can now refactor your CSS and the tests will let you know if something has changed unexpectedly.
 
 ### Running the tests on command-line
-This same test page can also be used with the command-line interface. cssert uses [PhantomJS](http://www.phantomjs.org/) to run the tests in a headless webkit instance so that they can be integrated into an automated build-system. You'll need to install PhantomJS into your path (the OS X version is already included in the project). Place your test case in the tests folder and run
+This same test page can also be used with the command-line interface. cssert uses [PhantomJS](http://www.phantomjs.org/) to run the tests in a headless webkit instance so that they can be integrated into an automated build-system. You'll need to install PhantomJS into your path after downloading it. Place your test case in the tests folder and run
 ```
 $ ./cssert testcase.html
 ```
@@ -24,8 +24,6 @@ arguments:
 ```
 $ ./cssert
 ```
-
-
 
 ## Spotting changes
 If a test is marked as failed, you can view the current state of the markup and styles in the browser window by clicking
