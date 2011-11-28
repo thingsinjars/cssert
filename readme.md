@@ -57,3 +57,6 @@ not be correctly matched. Modify your test case to allow for this.
 ### @font-face not correctly matched
 If your @font-face declaration contains a suggested 'local' source (as recommended in Paul Irish's [bulletproof syntax](http://paulirish.com/2009/bulletproof-font-face-implementation-syntax/)), a [bug in QTWebkit](https://bugs.webkit.org/show_bug.cgi?id=36351) will prevent the test case from running correctly.
 
+## Bug Tracker
+If you find any other bugs, please create an issue here on GitHub: https://github.com/thingsinjars/cssert/issues
+
