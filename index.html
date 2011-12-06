@@ -16,7 +16,7 @@
       <h2 class="pass">Download</h2>
       <p class="bookmarklet"><a href="http://github.com/thingsinjars/cssert">Download from GitHub</a></p>
       <h2>Design</h2>
-      <p>This works by generating a simple HTML skeleton unit which matches the minimal page structure around the element whose styles you want to test. This unit contains references to your project's CSS. You can then refactor your CSS as much as you like and as long as the styles amount to the same visual appearance, the test will continue to pass.</p>
+      <p>This works by generating a simple HTML skeleton unit which matches the minimal page structure around the element whose styles you want to test. This unit contains references to your project's CSS. You can then refactor your CSS as much as you like and as long as the styles amount to the same visual appearance, the test will continue to pass. In essence, we are moving the point of testing away from the CSS itself and looking at the effect of the cascade on the defined styles. You can <a href="testing-declarative.html">find out more about the theory</a> if you want.</p>
       <h2>Usage</h2>
       <p>The easiest way to create test cases is to use the bookmarklet. To generate a test unit, load a page whose styles you want to maintain then run the bookmarklet. If you click on an element, the test case will be generated in the floating panel. You can then either copy and paste this into the test section of the standard test page or drag the icon from the bottom of the panel to your desktop where it will create a complete HTML test page.</p>
       <h2>Bookmarklet</h2>
@@ -32,6 +32,8 @@
       <h3>Red-Green Testing</h3>
       <p>This isn't any good for Test-Driven Development. Due to CSS and HTML both being declarative, by the time you've written your test case, you'd really have been better off writing the actual HTML. Especially as you could then have used the bookmarklet to generate the test case.</p>
       <p>They may be a point in the future where the visual designer on a project could specify the test case beforehand but until then, this is best used to help with refactoring.</p>
+	  <h3>Changing the DOM</h3>
+	  <p>This is a cause for much questioning &ndash; if we are taking a snapshot of the DOM, we can only use these tests while the project's DOM remains the same. Essentially, you can't reorganise your HTML without causing the test to become invalid. That is true, to an extent. The correct thing to do in this circumstance is to regenerate the DOM snapshot. Remember, we're not testing the DOM, we're testing the cascade. If you were to restructure a JS module, you might need to create new mocked objects to ensure your tests continued to pass and this is the same deal. All you really need to do is to update the HTML snapshot in the test file while keeping the original style assertion block (the last section of the test file). The testing strategy is still valid. You can even generate this HTML using the 'Generate Tests' bookmarklet as long as you move it to the existing test file.</p>
     </section>
   </body>
 </html>
