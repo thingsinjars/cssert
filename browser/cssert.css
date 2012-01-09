@@ -4,6 +4,8 @@ iframe {
   position:absolute;
   top:-10000px;
   left:100%;
+  width:1600px;
+  height:1600px;
 }
 .pass {color:green;}
 .fail {color:red;}

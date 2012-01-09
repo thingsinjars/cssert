@@ -10,31 +10,19 @@ This works by generating a simple HTML skeleton unit which matches the minimal p
 ### Generating tests
 The easiest way to create test cases is to use the bookmarklet. To generate a test unit, load a page whose styles you want to maintain then run the bookmarklet. If you click on an element, the test case will be generated in the floating panel. You can then either copy and paste this into the test section of the standard test page or drag the icon from the bottom of the panel to your desktop.
 
-### Running the tests in-browser
+### Browser
 Open the test page in a browser now and all the tests should pass. You can now refactor your CSS and the tests will let you know if something has changed unexpectedly.
 
-### Running the tests on command-line
-This same test page can also be used with the command-line interface. cssert uses [PhantomJS](http://www.phantomjs.org/) to run the tests in a headless webkit instance so that they can be integrated into an automated build-system. You'll need to install PhantomJS into your path after downloading it. Place your test case in the tests folder and run
+### Command-line
+This same test page can also be used with the command-line interface. cssert uses [PhantomJS](http://www.phantomjs.org/) to run the tests in a headless webkit instance so that they can be integrated into an automated build-system. You'll need to install PhantomJS into your path. Place your test case in the command-line folder and run
 ```
 $ ./cssert testcase.html
-```
-
-To run all tests in the tests folder at once, simply run with no
-arguments:
-```
-$ ./cssert
 ```
 
 ## Spotting changes
 If a test is marked as failed, you can view the current state of the markup and styles in the browser window by clicking
 on the test title. When running via command-line, screenshots are saved
 of the state the page was in at the time of the test.
-
-## Installation
-Just clone the git project from git@github.com:thingsinjars/cssert.git
-and you're good to go.
-
-The tests directory comes with some sample tests generated using Twitter's Bootstrap project. Put your tests in that same place.
 
 ## Limitations
 Most of the limitations you'll run into are caused by using the
@@ -56,7 +44,4 @@ not be correctly matched. Modify your test case to allow for this.
 ## Known Bugs
 ### @font-face not correctly matched
 If your @font-face declaration contains a suggested 'local' source (as recommended in Paul Irish's [bulletproof syntax](http://paulirish.com/2009/bulletproof-font-face-implementation-syntax/)), a [bug in QTWebkit](https://bugs.webkit.org/show_bug.cgi?id=36351) will prevent the test case from running correctly.
-
-## Bug Tracker
-If you find any other bugs, please create an issue here on GitHub: https://github.com/thingsinjars/cssert/issues
 
