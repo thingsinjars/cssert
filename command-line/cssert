@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+command -v phantomjs >/dev/null 2>&1 || { echo >&2 "PhantomJS not installed.  Aborting."; exit 1; }
+
 if [ $# -eq 0 ]; then
   # Make sure the tests folder
   if [ -d ../tests ] ; then
