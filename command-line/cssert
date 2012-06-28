@@ -18,5 +18,5 @@ if [ $# -eq 0 ]; then
   done
 # User passed in a specific test to run
 else
-  phantomjs --local-to-remote-url-access=yes --load-images=no --disk-cache=yes headless.js ../tests/$1
+  phantomjs --local-to-remote-url-access=yes --load-images=no --disk-cache=yes headless.js ../test-runners/$1
 fi
