@@ -1,8 +1,7 @@
 /*globals phantom, require, CSSERT */
-var H = {};
 (function() {
   /* cssert - headless.js
-   * version 1.0
+   * version 0.1
    *
    * (C) Simon Madine (@thingsinjars) - Mit Style License
    * CSS verification test framework
@@ -16,8 +15,8 @@ var H = {};
    */
 
   var fs = require('fs'),
-    init, runTest, bufferTest, runTheTests, verbose = true,
-    log_LEVEL = 2,
+    init, runTest, bufferAssets, runAllTests,
+    log_LEVEL = 5,
 
     // Application stages
     CREATING_TESTS = 1,
@@ -37,7 +36,7 @@ var H = {};
     // All the tests we find in the passed in test runner.
     tests = [];
 
-    page.settings.userAgent = 'CSSERT';
+  page.settings.userAgent = 'CSSERT';
 
   var log = function(message, level) {
       var colors = ['\033[0;34m', '\033[0;31m', '\033[0;32m', '\033[0;33m', '\033[0;37m'],
@@ -80,28 +79,42 @@ var H = {};
       // directly into the page object.
       for (var a = 0; a < tests.length; a++) {
         // testObject = tests[a];
-        if (verbose) {
-          log('{3}Creating runner:{7} ' + tests[a].title, 3);
-        }
+        log('{3}Creating runner:{7} ' + tests[a].title, 3);
         fs.write('test-' + tests[a].title + '.html', tests[a].unit, 'w');
-        bufferTest('test-' + tests[a].title + '.html', tests[a].selector, JSON.parse(tests[a].styles), tests[a].title);
+        bufferAssets('test-' + tests[a].title + '.html', tests[a].selector, JSON.parse(tests[a].styles), tests[a].title);
       }
     } else {
       log('Failed to create runner files', 1);
       log('{1}CSSERT : Failed to create runner files');
     }
 
-    log('Running ' + tests.length + ' test'+(tests.length===1?'':'s'), 2);
+    log('Running ' + tests.length + ' test' + (tests.length === 1 ? '' : 's'), 2);
 
     // for (var a = 0; a < tests.length; a++) {
     //   runTest('test-' + tests[a].title + '.html', tests[a].selector, JSON.parse(tests[a].styles), tests[a].title);
     // }
-
   };
 
   // Create the test files and begin running the tests
   page.open(phantom.args[0], init);
 
+  // This is here to download remote assets first 
+  // so that the test can run with cached assets.
+  bufferAssets = function(filename) {
+    var page = require('webpage').create();
+    page.onLoadFinished = function(status) {
+      //This is to get round the asynchronous open calls
+      if (outstandingTests-- <= 0) {
+        runAllTests();
+      }
+      page.release();
+    };
+
+    page.open(filename);
+  };
+
+  // This takes the filename and the objects needed
+  // for the test
   runTest = function(filename, testSubject, stylesToAssert, testTitle) {
     log('runTest :: ' + testTitle, 3);
     var testPage = require('webpage').create();
@@ -111,6 +124,7 @@ var H = {};
       width: 1600,
       height: 1600
     };
+
     testPage.onConsoleMessage = consoleMessage;
 
     testPage.onLoadStarted = function() {};
@@ -135,7 +149,6 @@ var H = {};
         //Run the actual test case
         testPage.evaluate(function() {
           console.log("--");
-          // console.log($('html').html());
           if (CSSERT.assertStyles(testSubject, stylesToAssert)) {
             console.log('\033[0;32m' + testTitle + ' : Passed\033[0;37m');
           } else {
@@ -165,25 +178,8 @@ var H = {};
     testPage.open(filename);
   };
 
-  // This is an odd workaround for the asynchronous page.open behaviour
-  // Open the file, do nothing with it.
-  // then open it again and perform the actual tests.
-  bufferTest = function(filename) {
-    var page = require('webpage').create();
-    page.onLoadFinished = function(status) {
-      //This is to get round the asynchronous open calls
-      if (outstandingTests-- <= 0) {
-        runTheTests();
-      }
-      page.release();
-    };
-
-    page.open(filename);
-  };
-
-
   // Once we've created all the files, open them again and do the actual testing
-  runTheTests = function() {
+  runAllTests = function() {
     outstandingTests = tests.length - 1;
     for (var a = 0; a < tests.length; a++) {
       runTest('test-' + tests[a].title + '.html', tests[a].selector, JSON.parse(tests[a].styles), tests[a].title);
