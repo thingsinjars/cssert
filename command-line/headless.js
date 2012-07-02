@@ -15,20 +15,16 @@
    */
 
   var fs = require('fs'),
-    init, runTest, bufferAssets, runAllTests,
-    log_LEVEL = 5,
+    log, init, main, runTest, bufferAssets, runAllTests, log_LEVEL = 5,
 
-    // Application stages
-    CREATING_TESTS = 1,
-    RUNNING_TESTS = 2,
-    FINISHED = 3,
-    stage,
-
-    // This is the page object in which we run our tests
+    // This is the page object we use to parse the tests
+    // and generate individual runners
     page = require('webpage').create(),
 
     // To make the test creation/running synchronous
     outstandingTests = 0,
+
+    // Pass logs through to terminal
     consoleMessage = function(msg) {
       console.log(msg);
     },
@@ -36,31 +32,25 @@
     // All the tests we find in the passed in test runner.
     tests = [];
 
-  page.settings.userAgent = 'CSSERT';
+  init = function() {
+    log('Starting Headless', 2);
+    page.settings.userAgent = 'CSSERT';
 
-  var log = function(message, level) {
-      var colors = ['\033[0;34m', '\033[0;31m', '\033[0;32m', '\033[0;33m', '\033[0;37m'],
-        component = 'HEADLESS :: \033[0;37m';
-      level = level || 0;
-      message = message.replace(/\{(\d)\}/g, '\033[0;3$1m');
-      if (log_LEVEL >= level) {
-        console.log(colors[level] + component + message);
-      }
+    // Pipe console logs from host page to command-line
+    page.onConsoleMessage = consoleMessage;
 
-    };
+    // Make sure we are called with at least one test runner
+    if (phantom.args.length === 0) {
+      log('Usage: cssert testcase.html');
+      phantom.exit();
+    }
 
-  // Pipe console logs from host page to command-line
-  page.onConsoleMessage = consoleMessage;
+    // Create the test files and begin running the tests
+    page.open(phantom.args[0], main);
+  };
 
-  // Make sure we are called with at least one test runner
-  if (phantom.args.length === 0) {
-    log('Usage: cssert testcase.html');
-    phantom.exit();
-  }
-
-  init = function(status) {
-    log('Page Open', 2);
-    // make sure we only create the test files once.
+  main = function(status) {
+    log('Page Open', 2); // make sure we only create the test files once.
     if (status === "success") {
 
       // Inject jQuery and cssert into the test page so we can test the styles
@@ -94,9 +84,6 @@
     //   runTest('test-' + tests[a].title + '.html', tests[a].selector, JSON.parse(tests[a].styles), tests[a].title);
     // }
   };
-
-  // Create the test files and begin running the tests
-  page.open(phantom.args[0], init);
 
   // This is here to download remote assets first 
   // so that the test can run with cached assets.
@@ -185,4 +172,18 @@
       runTest('test-' + tests[a].title + '.html', tests[a].selector, JSON.parse(tests[a].styles), tests[a].title);
     }
   };
+
+  log = function(message, level) {
+    var colors = ['\033[0;34m', '\033[0;31m', '\033[0;32m', '\033[0;33m', '\033[0;37m'],
+      component = 'HEADLESS :: \033[0;37m';
+    level = level || 0;
+    message = message.replace(/\{(\d)\}/g, '\033[0;3$1m');
+    if (log_LEVEL >= level) {
+      console.log(colors[level] + component + message);
+    }
+
+  };
+
+  init();
+
 })();
