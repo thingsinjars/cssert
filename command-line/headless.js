@@ -15,7 +15,7 @@
    */
 
   var fs = require('fs'),
-    log, init, main, runTest, bufferAssets, runAllTests, log_LEVEL = 5,
+    log, init, main, runTest, bufferAssets, runAllTests, failedTests = 0, log_LEVEL = 1,
 
     // This is the page object we use to parse the tests
     // and generate individual runners
@@ -65,7 +65,7 @@
       outstandingTests = tests.length - 1;
 
       // This writes out files containing each individual test in the runner
-      // These will be read individually rather than injecting the content 
+      // These will be read individually rather than injecting the content
       // directly into the page object.
       for (var a = 0; a < tests.length; a++) {
         // testObject = tests[a];
@@ -85,7 +85,7 @@
     // }
   };
 
-  // This is here to download remote assets first 
+  // This is here to download remote assets first
   // so that the test can run with cached assets.
   bufferAssets = function(filename) {
     var page = require('webpage').create();
@@ -134,14 +134,18 @@
         testPage.injectJs(dataPath);
 
         //Run the actual test case
-        testPage.evaluate(function() {
+        var exitStatus = testPage.evaluate(function() {
           console.log("--");
           if (CSSERT.assertStyles(testSubject, stylesToAssert)) {
             console.log('\033[0;32m' + testTitle + ' : Passed\033[0;37m');
+            return 0;
           } else {
             console.log('\033[0;31m' + testTitle + ' : Failed\033[0;37m');
+            return 1;
           }
         });
+
+        failedTests+=exitStatus;
 
         //Remove test data
         fs.remove(dataPath);
@@ -156,7 +160,7 @@
 
       //This prevents PhantomJS quitting before we've run each individual test case.
       if (outstandingTests-- <= 0) {
-        phantom.exit();
+        phantom.exit(failedTests);
       }
 
       testPage.release();

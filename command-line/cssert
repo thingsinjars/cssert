@@ -1,5 +1,5 @@
 #!/bin/bash
-
+EXIT_STATUS=0;
 command -v phantomjs >/dev/null 2>&1 || { echo >&2 "PhantomJS not installed.  Aborting."; exit 1; }
 
 # User hasn't provided a specific test
@@ -15,8 +15,11 @@ if [ $# -eq 0 ]; then
   # Run all tests in the test-runner folder exists
   for file in ../test-runners/*.html ; do
   	phantomjs --local-to-remote-url-access=yes --load-images=no --disk-cache=yes headless.js $file
+    EXIT_STATUS+=$?
   done
 # User passed in a specific test to run
 else
   phantomjs --local-to-remote-url-access=yes --load-images=no --disk-cache=yes headless.js ../test-runners/$1
+  EXIT_STATUS+=$?
 fi
+exit $EXIT_STATUS
