@@ -1,3 +1,7 @@
+# DEPRECATED
+
+*This project is no longer maintained. If there's anything useful here, feel free to take it.*
+
 # cssert – CSS verification testing
 
 ## Make sure your styles don't change when your files do
